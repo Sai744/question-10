@@ -1,0 +1,22 @@
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+  receiver: 'ses'
+receivers:
+  - name: 'ses'
+    email_configs:
+      - smarthost: 'arn:aws:ses:us-east-1:311141538313:identity/garapatik07@gmail.com'
+        auth_username: 'AKIAUQ4L3DIEZPTHCL6J'
+        auth_password: "BCPMmdcElI4YnjdQmIaeu+7ZygF5FGv/pFhu5Gt/YEGo"
+        from: 'saisirisha'
+        to: 'saigarapati'
+        headers:
+          subject: 'Prometheus Mail Alerts'
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']

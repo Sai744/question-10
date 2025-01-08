@@ -1,0 +1,13 @@
+groups:
+- name: MemoryUtlisation
+  labels:
+    team: myteam
+  rules:
+  - alert: MemoryUtlisationAlert
+    expr: 100 - (avg by (instance) (irate(node_memory_MemAvailable_bytes[5m])) / avg by (instance) (node_memory_MemTotal_bytes) * 100) > 0.1
+    for: 1m
+    keep_firing_for: 15m
+    labels:
+      severity: critical
+    annotations:
+      summary: MemoryUtlisation is High
